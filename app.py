@@ -13,7 +13,9 @@ def index():
     db.execute("INSERT INTO visits (visited_at) VALUES (datetime('now', 'localtime'))")
     result = db.query("SELECT COUNT(*) FROM visits")
     count = result[0][0]
-    return render_template("mainpage.html")
+    messages = db.query("SELECT content FROM messages")
+    count = len(messages)
+    return render_template("mainpage.html", count=count, messages=messages)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

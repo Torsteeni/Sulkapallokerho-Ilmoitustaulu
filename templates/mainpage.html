@@ -11,10 +11,18 @@
   <a href="/logout">Kirjaudu ulos</a>
  </p>
  <hr />
-
-
- {% else %}
+ <h1>
+	ilmoitukset: {{ count }}
+ </h1>
+ <hr />
+ {% for message in messages %}
  <p>
+ 	{{ message.content }}
+ </p>
+<hr />
+{% endfor %}
+ {% else %}
+<p>
  Et ole kirjautunut. Kirjaudu sisään <a href="/login">tästä</a>
  </p>
  <hr />
