@@ -14,14 +14,28 @@
  <h1>
 	ilmoitukset: {{ count }}
  </h1>
+ <p>
+	Voit hakea ilmoituksia tästä: 
+ </p>
+   <form action="/search" method="GET">
+    <input type="text" name="query">
+    <input type="submit" value="Hae">
+</form>
+ <a href="/new_message">Uusi ilmoitus</a>
  <hr />
  {% for message in messages %}
- <p>
- 	{{ message.content }}
- </p>
+ <h2><a href="/message/{{ message[4]}}">{{ message[0] }}</a>
+ </h2>
+ <p>Muokattu: {{ message[2] }}</p>
+ <p>Lähettäjä: {{ message[3] }}</p>
+ <p>{{message[1]}} </p>
+ 
 <hr />
 {% endfor %}
- {% else %}
+<p>
+	Sivulla on vierailtu {{ visits }} kertaa.
+</p>
+{% else %}
 <p>
  Et ole kirjautunut. Kirjaudu sisään <a href="/login">tästä</a>
  </p>

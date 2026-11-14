@@ -1,0 +1,18 @@
+{% if query %}
+    <hr />
+    <h2>Tulokset</h2>
+
+    <ul>
+    {% for result in results %}
+        <li>
+            <h3>{{ result[2] }}</h3>
+
+            {{ result[1] }}
+
+            <br />
+
+            {{ result[4] }} ({{ result[3] }})
+        </li>
+    {% endfor %}
+    </ul>
+{% endif %}

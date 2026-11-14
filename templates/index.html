@@ -6,14 +6,8 @@
 </head>
 
 <body>
-  {% if session.username %}
-  <p>
-    Olet kirjautunut nimellä {{ session.username }}
-  </p>
-  <p>
-    <a href="/logout">Kirjaudu ulos</a>
-  </p>
-  {% else %}
+<h1> Kirjatuminen: </h1>
+
   <form action="/login" method="POST">
     <p>
       Tunnus: <br />
@@ -27,7 +21,6 @@
   </form>
 	<p>Eikö sinulla ole vielä tunnusta?</p>
    	<a href="/register">Luo tunnus</a>
-  {% endif %}
 </body>
 
 </html>
