@@ -1,11 +1,13 @@
 {% if query %}
     <hr />
-    <h2>Tulokset</h2>
+    <h2>Tulokset:</h2>
 
     <ul>
     {% for result in results %}
         <li>
-            <h3>{{ result[2] }}</h3>
+            <h3>
+		    <a href="/message/{{ result[0] }}">{{ result[2] }}</a>
+	    </h3>
 
             {{ result[1] }}
 
@@ -13,6 +15,8 @@
 
             {{ result[4] }} ({{ result[3] }})
         </li>
+        <br />
     {% endfor %}
     </ul>
+    <a href="/">Takaisin etusivulle?</a>
 {% endif %}
