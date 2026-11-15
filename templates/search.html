@@ -1,5 +1,6 @@
+<!DOCTYPE HTML>
+<hr />
 {% if query %}
-    <hr />
     <h2>Tulokset:</h2>
 
     <ul>
@@ -15,8 +16,8 @@
 
             {{ result[4] }} ({{ result[3] }})
         </li>
-        <br />
     {% endfor %}
     </ul>
+    <hr />
 {% endif %}
 <a href="/">Takaisin etusivulle?</a>
