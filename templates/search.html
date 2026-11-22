@@ -7,17 +7,23 @@
     {% for result in results %}
         <li>
             <h3>
-		    <a href="/message/{{ result[0] }}">{{ result[2] }}</a>
-	    </h3>
+                <a href="/message/{{ result[0] }}">
+                    {{ result[2] }}
+                </a>
+            </h3>
 
-            {{ result[1] }}
+            <p><strong>Julkaisija:</strong> {{ result[4] }}</p>
 
-            <br />
+            <p><strong>Tapahtumapäivä:</strong> {{ result[6] }}</p>
 
-            {{ result[4] }} ({{ result[3] }})
+            <p><strong>Kellonaika:</strong> {{ result[7] }}</p>
+
+            <p><strong>Julkaistu:</strong> {{ result[3] }}</p>
+
         </li>
     {% endfor %}
     </ul>
     <hr />
 {% endif %}
-<a href="/">Takaisin etusivulle?</a>
+
+<a href="/">Takaisin etusivulle</a>

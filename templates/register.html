@@ -6,18 +6,32 @@
 </head>
 <body>
 <h1>Luo uusi tunnus</h1>
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+        {% if category == "error" %}
+	    <h3>{{ message }}</h3>
+        {% elif category == "success" %}
+            <h3>{{ message }}</h3>
+        {% endif %}
+    {% endfor %}
+{% endwith %}
 <form action="{{ url_for("create") }}" method="POST">
     <p>
       Tunnus: <br />
-      <input type="text" name="username" />
+      <input type="text" name="username" maxlength="20" required>
     </p>
     <p>
       Salasana: <br />
-      <input type="password" name="password1" />
+      <input type="password" name="password1" required/>
     </p>
     <p>
       Salasana uudestaan: <br />
-      <input type="password" name="password2" />
+      <input type="password" name="password2" required/>
+    </p>
+    <p>
+      <input type="radio" name="role" value="1" required/> aloittelija
+      <input type="radio" name="role" value="2" /> keskitaso
+      <input type="radio" name="role" value="3" /> edistynyt
     </p>
     <p>
     <input type="submit" value="Luo tunnus" />

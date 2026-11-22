@@ -1,18 +1,30 @@
-create table users (
-    id integer primary key,
-    username text unique,
-    password_hash text
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY,
+    username TEXT UNIQUE,
+    password_hash TEXT,
+    role INTEGER
 );
 
-create table messages (
-    id integer primary key,
-    content text,
-    date text,
-    user_id integer,
-    title text
+CREATE TABLE messages (
+    id INTEGER PRIMARY KEY,
+    content TEXT,
+    date TEXT,
+    user_id INTEGER REFERENCES users,
+    title TEXT,
+    location TEXT,
+    event_date TEXT,
+    event_time TEXT,
+    max_players INTEGER
 );
 
-create table visits (
-    id integer primary key,
-    visited_at text
+CREATE TABLE participants (
+    id INTEGER PRIMARY KEY,
+    message_id INTEGER REFERENCES messages,
+    user_id INTEGER REFERENCES users,
+    UNIQUE (user_id, message_id)
+);
+
+CREATE TABLE visits (
+    id INTEGER PRIMARY KEY,
+    visited_at TEXT
 );

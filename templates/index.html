@@ -7,7 +7,15 @@
 
 <body>
 <h1> Kirjatuminen: </h1>
-
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+        {% if category == "error" %}
+            <p style="color: red;">{{ message }}</p>
+        {% elif category == "success" %}
+            <p style="color: green;">{{ message }}</p>
+        {% endif %}
+    {% endfor %}
+{% endwith %}
   <form action="/login" method="POST">
     <p>
       Tunnus: <br />

@@ -1,45 +1,93 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>Sulkapallokerho</title>
+    <title>Sulkapallokerho</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 <h1>Sulkapallokerho</h1>	
  {% if session.username %}	
- <p/a>
- Olet kirjuatunut nimellä {{ session.username }}
-  <a href="/logout">Kirjaudu ulos</a>
- </p>
- <hr />
- <h1>
+<P>
+    Olet kirjuatunut nimellä {{ session.username }}
+    <a href="/logout">Kirjaudu ulos</a>
+</p>
+<hr />
+<h1>
 	ilmoitukset: {{ count }}
- </h1>
- <p>
+</h1>
+<p>
 	Voit hakea ilmoituksia tästä: 
- </p>
-   <form action="/search" method="GET">
-    <input type="text" name="query">
+</p>
+<form action="/search" method="GET">
+    <p>Valitse tapahtumapäivä:</p>
+    <input type="date" name="query" required>
     <input type="submit" value="Hae">
 </form>
- <a href="/new_message">Uusi ilmoitus</a>
- <hr />
- {% for message in messages %}
- <h2><a href="/message/{{ message[4]}}">{{ message[0] }}</a>
- </h2>
- <p>Muokattu: {{ message[2] }}</p>
- <p>Lähettäjä: {{ message[3] }}</p>
- <p>{{message[1]}} </p>
- 
 <hr />
+<a href="/new_message">Uusi ilmoitus</a>
+<hr />
+
+{% for message in messages %}
+    <h2><a href="/message/{{ message[4]}}">{{ message[0] }}</a></h2>
+    <p>Ajankohta: {{ message[6] }} klo. {{ message [7] }}</p>
+    <p>Julkaisija: {{ message[3] }}</p>
+    {% if message[5] == "1" %}
+        <p> Paikka: Kumpula Unisport </p>
+    {% elif message[5] == "2"  %}
+        <p> Paikka: Otaniemi Unisport </p>
+    {% elif message[5] == "3" %}
+        <p> Paikka: Keskusta Unisport </p>
+    {% endif %}
+    
+    {% set participant_count = participants|length %}
+
+    {% if message["max_players"] is not none
+        and participant_count >= message["max_players"] - 1 %}
+
+        <p>Tapahtuma on täynnä.</p>
+
+    {% else %}
+
+        <p>Tapahtumassa on vielä tilaa ilmoittautua!</p>
+
+    {% endif %}
+    <hr />
 {% endfor %}
+
 <p>
 	Sivulla on vierailtu {{ visits }} kertaa.
 </p>
 {% else %}
 <p>
  Et ole kirjautunut. Kirjaudu sisään <a href="/login">tästä</a>
- </p>
+</p>
+<hr />
+<h1>
+        ilmoitukset: {{ count }}
+</h1>
+<p>
+        Voit hakea ilmoituksia tästä:
+</p>
+<form action="/search" method="GET">
+    <p>Valitse tapahtumapäivä:</p>
+    <input type="date" name="query" required>
+    <input type="submit" value="Hae">
+</form>
+
  <hr />
- {% endif %}
+{% for message in messages %}
+    <h2>{{ message[0] }}</h2>
+    <p>Ajakohta: {{ message[6] }} klo. {{ message[7] }}</p>
+    <p>Jukaisija: {{ message[3] }}</p>
+    {% if message[5] == "1" %}
+        <p> Paikka: Kumpula Unisport </p>
+    {% elif message[5] == "2"  %}
+        <p> Paikka: Otaniemi Unisport </p>
+    {% elif message[5] == "3" %}
+        <p> Paikka: Keskusta Unisport </p>
+    {% endif %}
+    <hr />
+{% endfor %}
+{% endif %}
 </body>
 </html>

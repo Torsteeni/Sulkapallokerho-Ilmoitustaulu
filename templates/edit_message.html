@@ -1,17 +1,46 @@
 <!DOCTYPE HTML>
-
+<html>
+<body>
 <h1>Muokkaa ilmoitusta</h1>
 
 <form method="POST">
 
     <p>Otsikko:</p>
-    <input type="text" name="title" value="{{ message[1] }}">
+    <input type="text" name="title"
+           value="{{ message['title'] }}">
 
     <p>Sisältö:</p>
-    <textarea name="content">{{ message[2] }}</textarea>
+    <textarea name="content">{{ message['content'] }}</textarea>
 
-    <br />
+    <p>Paikka:</p>
+    <label>
+        <input type="radio" name="location" value="1"
+            {% if message["location"] == 1 %}checked{% endif %}>
+        Kumpula Unisport 
+    </label>
 
-    <input type="submit" value="Tallenna muutokset">
+    <label>
+        <input type="radio" name="location" value="2"
+            {% if message["location"] == 2 %}checked{% endif %}>
+        Otaniemi Unisport
+    </label>
+ 
+    <label>
+        <input type="radio" name="location" value="3"
+            {% if message["location"] == 3 %}checked{% endif %}>
+        Keskusta Unisport
+    </label>
+    <p>Päivämäärä:</p>
+    <input type="date" name="event_date"
+           value="{{ message['event_date'] }}">
 
+    <p>Kellonaika:</p>
+    <input type="time" name="event_time"
+           value="{{ message['event_time'] }}">
+
+    <input type="submit" value="Tallenna">
 </form>
+
+
+</body>
+</html>

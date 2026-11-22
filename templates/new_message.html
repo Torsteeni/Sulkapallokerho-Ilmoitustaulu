@@ -8,15 +8,29 @@
 <br />
 <form action="/new_message" method="post">
     <p>Otsikko:</p>
-    <input type="text" name="title" required>
-
+    <input type="text" name="title" maxlength="100" required>
+    
+    <br>
+    
+    <p>Tapahtumapaikka:</p>   
+      <input type="radio" name="location" value="1" required /> Kumpula Unisport
+      <input type="radio" name="location" value="2" /> Otaniemi Unisport 
+      <input type="radio" name="location" value="3" /> Keskusta Unisport
     <br>
 
-    <p>Ilmoituksen sisältö:</p>
-    <textarea name="content" rows="5" required></textarea>
+    <p>Tapahtuman päivämäärä:</p>
+    <input type="date" name="event_date" required>
+
+    <p>Tapahtuman kellonaika:</p>
+    <input type="time" name="event_time" required>
 
     <br>
+    <p>Lisätiedot:</p>
+    <textarea name="content" rows="5" cols="40" maxlength="5000"></textarea>
 
+    <br>
+    <p>Tarvittavien pelaajien määrä:</p>
+    <input type="number"  name="max_players" min="1" max="19" required>
     <input type="submit" value="Lähetä ilmoitus">
 
 </form>

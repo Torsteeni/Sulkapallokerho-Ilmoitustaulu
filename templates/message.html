@@ -1,24 +1,87 @@
-<h1> {{ message[1] }} </h1>
-<p>
-    Kirjoittaja: {{ message[4] }}
-</p>
-<p>
-    Julkaistu: {{ message[3] }}
-</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ message["title"] }}</title>
+</head>
+<body>
 
-<p>
-    {{ message[2] }}
-</p>
+    <h1>{{ message["title"] }}</h1>
 
-<hr />
+    <p>{{ message["content"] }}</p>
 
-    <a href="/edit_message/{{ message[0] }}">Muokkaa ilmoitusta</a>
-<hr />
+    <p>
+        {% if message["role"] == 1 %}           
+            Julkaisija: {{ message["username"] }} (Aloittelija pelaaja)
+        {% elif message["role"] == 2 %}
+            Julkaisija: {{ message["username"] }} (Keskitson pelaaja)
+        {% elif message["role"] == 3 %}
+            Julkaisija: {{ message["username"] }} (Edistynyt pelaaja)
+        {% endif%}
+    </p>
 
-    <a href="/">Takaisin etusivulle</a>
+    <p>Päivämäärä: {{ message["event_date"] }}</p>
 
-<h2> Keskustelu: </h2>
-<hr />
-     <form action="/delete_message/{{ message[0] }}" method="POST">
-        <input type="submit" value="Poista ilmoitus">
-    </form>
+    <p>Kellonaika: {{ message["event_time"] }}</p>
+
+    <hr>
+    {% if session.username == message["username"] %}
+    <a href="/edit_message/{{ message['id'] }}">Muokkaa ilmoitusta</a>
+    <hr>
+    {% endif %}
+    <h2>Ilmoittautuneet</h2>
+    <p>Maksimissaan voi olla: {{ message["max_players"] }} (ilmoittaja mukaan lukijen)</p>
+    {% if participants %}
+        <ul>
+        {% for participant in participants %}
+            <li>{{ participant["username"] }}
+		{% if message["role"] == 1 %}
+                    (Aloittelija pelaaja)
+		{% elif message["role"] == 2 %}	
+                    (Keskitson pelaaja)
+                {% elif message["role"] == 3 %}
+                    (Edistynyt pelaaja)
+		{% endif%}
+           </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>Ei vielä ilmoittautuneita.</p>
+    {% endif %}
+
+    <p>Ilmoittautuneita yhteensä: {{ participants|length }} </p>
+    
+    {% set participant_count = participants|length %}
+
+    {% set is_enrolled = participants
+        | selectattr("username", "equalto", session.get("username"))
+        | list
+        | length > 0 %}
+
+    {% if session.get("username") == message["username"] %}
+
+        <p>Tämä on oma ilmoitus.</p>
+
+    {% elif is_enrolled %}
+
+        <form action="{{ url_for('unenroll', message_id=message['id']) }}"
+              method="POST">
+            <button type="submit">poistu</button>
+        </form>
+
+    {% elif message["max_players"] is not none
+        and participant_count >= (message["max_players"] - 1) %}
+
+        <p>Ilmoittautuminen täynnä</p>
+
+    {% else %}
+
+        <form action="{{ url_for('enroll', message_id=message['id']) }}"
+              method="POST">
+            <button type="submit">Ilmoittaudu</button>
+        </form>
+
+    {% endif %}  
+    <hr>
+    <a href="/">Takaisin etusivulle</a>	
+</body>
+</html>

@@ -11,16 +11,12 @@ def get_messages(thread_id):
     return db.query(sql, [thread_id])
 
 def search(query):
-    sql = """SELECT m.id,
-                    m.content,
-                    m.title,
-                    m.date,
-                    u.username
+    sql = """SELECT 
+             m.id, m.content, m.title, m.date, u.username, m.location, m.event_date, m.event_time
              FROM messages m
-             Left join users u on m.user_id = u.id
-             WHERE m.content LIKE ?
-              or m.title Like ?
-	      or u.username Like ?
-             ORDER BY m.date DESC
+             LEFT JOIN users u ON m.user_id = u.id
+             WHERE m.event_date = ?
+             ORDER BY m.event_date ASC
          """
-    return db.query(sql, ["%" + query + "%", "%" + query + "%", "%" + query + "%"])
+
+    return db.query(sql, [query])
